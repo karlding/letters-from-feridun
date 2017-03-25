@@ -471,8 +471,6 @@ body {
 #timeline {
   width: 100%;
   margin: 0 auto;
-  overflow-x: auto;
-  white-space: nowrap;
 }
 
 svg {
@@ -509,10 +507,26 @@ header, #message {
 .tooltip {
   opacity: 0;
   position: absolute;
-  font-family: 'Helvetica Neue';
   font-weight: 300;
   background: rgba(0, 0, 0, 0.5);
   color: white;
   padding: 5px 10px 5px 10px;
   border-radius: 4px;
+  float: left;
+}
+
+.timeline-label {
+  font-size: 70%;
+}
+
+h1, h2 {
+  font-family: 'Ovo', serif;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+body {
+  font-family: 'Muli', sans-serif;
 }
