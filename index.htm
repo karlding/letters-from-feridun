@@ -5,7 +5,7 @@
     <meta charset="utf-8">
 
     <title>Letters from Feridun</title>
-    <meta name="description" content="Letters from Feridun">
+    <meta name="description" content="Visually explore the email correspondence from our beloved university president.">
     <meta name="author" content="Karl Ding">
 
     <link href="https://fonts.googleapis.com/css?family=Muli|Ovo" rel="stylesheet">
@@ -28,11 +28,19 @@
         </p>
       </header>
       <div id="timeline"></div>
-      <div id="message"></div>
+      <button id="prev">Prev</button>
+      <div id="message">
+      </div>
     </div>
     <script src="js/d3.v2.js"></script>
     <script src="js/timeline.js"></script>
     <script>
+      var fakeClick = function(target) {
+        var event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click');
+        target.dispatchEvent(event);
+      };
+
       var request = new XMLHttpRequest();
       request.open('GET', 'data/msgs.json', true);
 
@@ -45,6 +53,13 @@
           });
 
           TimeLine.draw('#timeline', resp);
+          if (window.location.hash) {
+            var hash = window.location.hash.substring(1);
+            var node = document.querySelectorAll('#time-' + hash);
+            if (node !== undefined && node[0] !== undefined) {
+              fakeClick(node[0]);
+            }
+          }
         } else {
           // We reached our target server, but it returned an error
         }

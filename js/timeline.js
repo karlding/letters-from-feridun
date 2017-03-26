@@ -32,6 +32,11 @@ var TimeLine = {
     var timestamps = events.map(function(d) {
       return Date.parse(d.date);
     });
+
+    for (var i = 0; i < events.length; i++) {
+      events[i].previous = events[i - 1];
+    }
+
     var maxValue = d3.max(timestamps);
     var minValue = d3.min(timestamps);
     var margin = (config.radius * 1.5) + config.lineWidth;
@@ -142,6 +147,8 @@ var TimeLine = {
 
             document.querySelectorAll('#message')[0].innerHTML = '<h2>' + d.subject + '</h2>' + dateString + content;
 
+            console.log('previous ' + d.previous);
+
             return Math.floor(config.radius * 1.5);
           });
 
@@ -170,6 +177,9 @@ var TimeLine = {
         var date = new Date(e.date);
         var dateString = format(date);
         var content = (e.content !== undefined) ? e.content : '';
+        var hash = Date.parse(e.date);
+
+        window.location.hash = hash;
 
         document.querySelectorAll('#message')[0].innerHTML = '<h2>' + e.subject + '</h2>' + dateString + content;
       });
