@@ -501,7 +501,15 @@ blockquote p {
 
 header, #message {
   margin: 60px auto;
-  max-width:650px;
+  max-width: 650px;
+}
+
+header {
+  margin: 60px auto 0 auto;
+}
+
+#message {
+  margin: 0 auto 60px auto
 }
 
 .tooltip {
@@ -530,3 +538,8 @@ h1 {
 body {
   font-family: 'Muli', sans-serif;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
