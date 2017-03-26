@@ -28,18 +28,12 @@
         </p>
       </header>
       <div id="timeline"></div>
-      <button id="prev">Prev</button>
       <div id="message">
       </div>
     </div>
     <script src="js/d3.v2.js"></script>
     <script src="js/timeline.js"></script>
     <script>
-      var fakeClick = function(target) {
-        var event = document.createEvent('MouseEvents');
-        event.initMouseEvent('click');
-        target.dispatchEvent(event);
-      };
 
       var request = new XMLHttpRequest();
       request.open('GET', 'data/msgs.json', true);
@@ -53,13 +47,6 @@
           });
 
           TimeLine.draw('#timeline', resp);
-          if (window.location.hash) {
-            var hash = window.location.hash.substring(1);
-            var node = document.querySelectorAll('#time-' + hash);
-            if (node !== undefined && node[0] !== undefined) {
-              fakeClick(node[0]);
-            }
-          }
         } else {
           // We reached our target server, but it returned an error
         }

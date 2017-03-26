@@ -15,6 +15,16 @@ var TimeLine = {
       axisDateFormat: '%b %d %Y',
     };
 
+    var fakeClick = function(target) {
+      var event = new MouseEvent("click", {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+          clientX: 20,
+      });
+      target.dispatchEvent(event);
+    };
+
     var today = Date.parse(new Date());
 
     var toolTip = d3.select(id)
@@ -32,10 +42,6 @@ var TimeLine = {
     var timestamps = events.map(function(d) {
       return Date.parse(d.date);
     });
-
-    for (var i = 0; i < events.length; i++) {
-      events[i].previous = events[i - 1];
-    }
 
     var maxValue = d3.max(timestamps);
     var minValue = d3.min(timestamps);
@@ -140,14 +146,12 @@ var TimeLine = {
           })
           .transition()
           .duration(100).attr('r', function(d) {
-            var format = d3.time.format('%A %b %d, %Y at %H:%M:%S %p');
+            var format = d3.time.format('%A %b %d, %Y at %I:%M:%S %p');
             var date = new Date(d.date);
             var dateString = format(date);
             var content = (d.content !== undefined) ? d.content : '';
 
             document.querySelectorAll('#message')[0].innerHTML = '<h2>' + d.subject + '</h2>' + dateString + content;
-
-            console.log('previous ' + d.previous);
 
             return Math.floor(config.radius * 1.5);
           });
@@ -173,7 +177,7 @@ var TimeLine = {
           .style('opacity', 0);
       })
       .on('click', function(e) {
-        var format = d3.time.format('%A %b %d, %Y at %H:%M:%S %p');
+        var format = d3.time.format('%A %b %d, %Y at %I:%M:%S %p');
         var date = new Date(e.date);
         var dateString = format(date);
         var content = (e.content !== undefined) ? e.content : '';
@@ -182,6 +186,15 @@ var TimeLine = {
         window.location.hash = hash;
 
         document.querySelectorAll('#message')[0].innerHTML = '<h2>' + e.subject + '</h2>' + dateString + content;
+      })
+      .call(function() {
+        if (window.location.hash) {
+          var hash = window.location.hash.substring(1);
+          var node = document.querySelectorAll('#time-' + hash);
+          if (node !== undefined && node[0] !== undefined) {
+            fakeClick(node[0]);
+          }
+        }
       });
 
     // start + end labels
